@@ -48,12 +48,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="W1R-vU-uYH">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="dCx-O7-zfj">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="dCx-O7-zfj">
                             <connections>
                                 <segue destination="tXb-wv-3id" kind="show" id="ifF-1r-TbU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="Img-nT-ILt" id="8K1-fG-LCP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -92,6 +95,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2TS-d0-pqf">
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                 <state key="normal" title="Add"/>
                                 <connections>
                                     <action selector="addTapped:" destination="tXb-wv-3id" eventType="touchUpInside" id="TWK-ob-a2i"/>
@@ -111,6 +115,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="addButton" destination="2TS-d0-pqf" id="7ap-nA-rnK"/>
+                        <outlet property="playButton" destination="mO3-dH-9xm" id="0eG-Rl-ZL4"/>
                         <outlet property="recordButton" destination="3ey-lC-MuI" id="H8H-L6-JTC"/>
                         <outlet property="textField" destination="42h-40-qhW" id="p9Z-CZ-Mrr"/>
                     </connections>

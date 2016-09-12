@@ -13,15 +13,19 @@ class SoundViewController: UIViewController {
 
   @IBOutlet weak var recordButton: UIButton!
   @IBOutlet weak var textField: UITextField!
+  @IBOutlet weak var playButton: UIButton!
+  @IBOutlet weak var addButton: UIButton!
   
   var audioRecorder : AVAudioRecorder? = nil
-  
-  
+  var audioPlayer : AVAudioPlayer? = nil
+  var audioURL : URL?
   
     override func viewDidLoad() {
         super.viewDidLoad()
       
       setupRecorder()
+      playButton.isEnabled = false
+      addButton.isEnabled = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,8 +48,11 @@ class SoundViewController: UIViewController {
       let basePath : String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
       let pathComponents = [basePath, "audio.m4a"]
       
-      let audioURL = NSURL.fileURL(withPathComponents: pathComponents)
-      
+      audioURL = NSURL.fileURL(withPathComponents: pathComponents)
+      print("##################")
+      print(audioURL)
+      print("##################")
+     
       // Create settings for the audio recorder
       
       var settings : [String:AnyObject] = [:]
@@ -66,12 +73,56 @@ class SoundViewController: UIViewController {
   }
     
   @IBAction func recordTapped(_ sender: AnyObject) {
+    
+    if audioRecorder!.isRecording {
+      
+      // Stop recording
+      
+      audioRecorder?.stop()
+      
+      // Change button to Record
+      
+      recordButton.setTitle("Record", for: .normal)
+      
+      playButton.isEnabled = true
+      addButton.isEnabled = true
+      
+    } else {
+      
+      // Start recording
+      
+      audioRecorder?.record()
+      
+      // Change button to Stop
+      
+      recordButton.setTitle("Stop", for: .normal)
+    }
   }
 
   @IBAction func playTapped(_ sender: AnyObject) {
+    
+    do {
+      try audioPlayer = AVAudioPlayer(contentsOf: audioURL!)
+      audioPlayer?.play()
+    } catch {}
   }
 
   @IBAction func addTapped(_ sender: AnyObject) {
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let sound = Sound(context: context)
+    
+    sound.name = textField.text
+    sound.audio = NSData(contentsOf: audioURL!)
+    
+    (UIApplication.shared.delegate as! AppDelegate).saveContext()
+    
+    navigationController!.popViewController(animated: true)
+
   }
+  
+  
+  
+  
   
 }
